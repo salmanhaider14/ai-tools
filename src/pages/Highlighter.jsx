@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "../app.css";
 import { IoCopyOutline } from "react-icons/io5";
-function Summarizer() {
+
+function Highlighter() {
   const [articleUrl, setArticleUrl] = useState("");
   const [summary, setSummary] = useState("");
   const textAreaRef = useRef(null);
@@ -38,7 +39,7 @@ function Summarizer() {
         input: articleUrl,
         steps: [
           {
-            skill: "summarize",
+            skill: "highlights",
           },
         ],
       },
@@ -50,7 +51,8 @@ function Summarizer() {
       }
     );
 
-    setSummary(res.data.output[0].text);
+    setSummary(res.data.output[0].labels);
+    console.log(res.data);
     // const res = await axios.post(
     //   "https://api.pawan.krd/v1/completions",
     //   {
@@ -87,13 +89,13 @@ function Summarizer() {
   return (
     <div className="App">
       <head>
-        <title>Pro Summarizer</title>
+        <title>Highlighter</title>
       </head>
 
-      <h1 className="text-center pt-5 heading">Instant Article Summarizer</h1>
+      <h1 className="text-center pt-5 heading">Text Highlighter</h1>
       <p className="text-center pt-2 heading fs-5 ">
-        Effortlessly condense any text into a concise summary <br></br>with our
-        AI-powered article summarizer
+        Effortlessly point out the most imoportant piece of information in any
+        text
       </p>
 
       <div className="d-flex justify-content-center align-items-center mt-5">
@@ -118,10 +120,20 @@ function Summarizer() {
       <div className="d-flex justify-content-center align-items-center mt-5">
         {summary && (
           <div className="summary-container rounded">
-            <h1>Summary</h1>
-            {typedSummary.length > 0 && (
-              <p ref={textAreaRef}>{typedSummary.join("")}</p>
-            )}
+            <h1>Highlights</h1>
+            {typedSummary.length > 0 &&
+              typedSummary.map((item) => (
+                <ul
+                  style={{
+                    paddingTop: "2.5rem",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <li>{item?.value}</li>
+                </ul>
+              ))}
             <IoCopyOutline
               onClick={handleCopy}
               className="icon cursor-pointer"
@@ -134,4 +146,4 @@ function Summarizer() {
   );
 }
 
-export default Summarizer;
+export default Highlighter;
