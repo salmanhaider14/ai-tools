@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
 import Summarizer from "./pages/Summarizer";
-import Grammerly from "./pages/Grammerly";
 import Highlighter from "./pages/Highlighter";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
