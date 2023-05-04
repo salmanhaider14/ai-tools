@@ -7,8 +7,8 @@ function App() {
     <Router>
       <nav class="navbar navbar-expand-lg bg-transparent">
         <div class="container-fluid">
-          <a class="navbar-brand ps-5 fw-bold text-primary" href="/">
-            <p>InsightfulSum</p>
+          <a class="navbar-brand ps-5 fw-bold" href="/">
+            <p style={{ color: "#210062" }}>InsightfulSum</p>
           </a>
           <button
             class="navbar-toggler"
@@ -25,20 +25,20 @@ function App() {
             <ul class="navbar-nav ms-auto me-5 fw-bold ">
               <li class="nav-item">
                 <a
-                  class="nav-link active text-primary"
+                  class="nav-link active "
                   aria-current="page"
                   href="/summarizer"
                 >
-                  Summarizer
+                  <p style={{ color: "#210062" }}>Summarizer</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a
-                  class="nav-link active text-primary"
+                  class="nav-link active "
                   aria-current="page"
                   href="/highlighter"
                 >
-                  Highlighter
+                  <p style={{ color: "#210062" }}>Highlighter</p>
                 </a>
               </li>
             </ul>

@@ -16,10 +16,23 @@ body {
 .heading {
   color: #19376d;
   text-shadow: 2px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.heading {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
 input {
   width: 50%;
-  height: 60px;
+  height: 70px;
   padding: 10px;
   border-radius: 10px;
   border: none;
@@ -28,11 +41,12 @@ input {
   border-bottom-right-radius: 0;
 }
 input:focus {
-  outline: 4px solid lightblue;
+  outline: 4px solid rgb(0, 0, 128, 0.4);
+  border-radius: 10px;
 }
 .button {
   width: 130px;
-  height: 60px;
+  height: 70px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   background-color: #333333;
@@ -53,8 +67,6 @@ input:focus {
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
   width: 50%;
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
   flex-direction: column;
   padding: 1.5rem;
   position: relative;
@@ -69,6 +81,9 @@ input:focus {
 }
 .summary-container p {
   padding-top: 2rem;
+}
+.summary-container ul {
+  list-style: disc;
 }
 .icon {
   cursor: pointer;
@@ -90,6 +105,11 @@ input:focus {
   cursor: pointer;
   transition: all 0.2s;
   text-decoration: none;
+  background-image: linear-gradient(
+    180.3deg,
+    rgba(214, 224, 255, 0.5) 37.2%,
+    rgba(61, 136, 197, 0.4) 137.3%
+  );
 }
 a h4,
 a p {
@@ -99,4 +119,16 @@ a p {
 .card:hover {
   transform: scale(1.1);
   transition: all 0.2s;
+}
+footer {
+  position: relative;
+  bottom: 0;
+}
+footer p {
+  text-align: center;
+}
+@media all and (max-width: 768px) {
+  .summary-container {
+    width: 80%;
+  }
 }
