@@ -91,8 +91,8 @@ function Summarizer() {
       </head>
 
       <h1 className="text-center pt-5 heading">Instant Article Summarizer</h1>
-      <p className="text-center pt-2 heading fs-5 ">
-        Effortlessly condense any text into a concise summary <br></br>with our
+      <p className="text-center pt-2 sub-heading  ">
+        Effortlessly condense any text into a concise summary with our
         AI-powered article summarizer
       </p>
 

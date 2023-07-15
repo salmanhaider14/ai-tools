@@ -11,7 +11,7 @@ const Home = () => {
       <h1 className="text-center pt-5 heading">
         Get the Essence of Any Article with Our Tools
       </h1>
-      <p className="text-center pt-2 heading fs-5 ">
+      <p className="text-center pt-2 sub-heading  ">
         Improve your research skills by utilizing our advanced <br></br> article
         summarization and sentence extraction technology
       </p>

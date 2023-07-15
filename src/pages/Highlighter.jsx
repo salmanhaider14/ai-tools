@@ -93,7 +93,7 @@ function Highlighter() {
       </head>
 
       <h1 className="text-center pt-5 heading">Text Highlighter</h1>
-      <p className="text-center pt-2 heading fs-5 ">
+      <p className="text-center pt-2 sub-heading  ">
         Effortlessly point out the most imoportant piece of information in any
         text
       </p>
