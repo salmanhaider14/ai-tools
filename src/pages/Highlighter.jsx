@@ -6,9 +6,10 @@ import { IoCopyOutline } from "react-icons/io5";
 function Highlighter() {
   const [articleUrl, setArticleUrl] = useState("");
   const [summary, setSummary] = useState("");
-  const textAreaRef = useRef(null);
   const [typedSummary, setTypedSummary] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const textAreaRef = useRef(null);
 
   useEffect(() => {
     let intervalId;
@@ -31,59 +32,63 @@ function Highlighter() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setStatusMessage("");
     setSummary("");
-    const res = await axios.post(
-      "https://api.oneai.com/api/v0/pipeline",
-      {
-        input: articleUrl,
-        steps: [
-          {
-            skill: "highlights",
-          },
-        ],
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "api-key": "b6f83746-f1f6-4a79-9cdd-4668d6b6f73a",
+    setTypedSummary([]);
+
+    if (!articleUrl.trim()) {
+      setStatusMessage("Please enter a valid article.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post(
+        "https://api.oneai.com/api/v0/pipeline",
+        {
+          input: articleUrl,
+          steps: [{ skill: "highlights" }],
         },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": import.meta.env.VITE_ONEAI_KEY,
+          },
+        }
+      );
+
+      if (res.data && res.data.output && res.data.output[0].labels) {
+        setSummary(res.data.output[0].labels);
+      } else {
+        setStatusMessage(
+          "No highlights found. Please try a different article."
+        );
       }
-    );
-
-    setSummary(res.data.output[0].labels);
-    console.log(res.data);
-    // const res = await axios.post(
-    //   "https://api.pawan.krd/v1/completions",
-    //   {
-    //     model: "text-davinci-003",
-    //     prompt: `Human: Please summarize the following article: ${articleUrl}`,
-    //     temperature: 0.5,
-    //     max_tokens: 300,
-    //     stop: ["Human:", "AI:"],
-    //   },
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer pk-sHhqMuhdNTsjOnSyiQSyVUsWuTKmlMmIdhrcgFWnYzPGqYKV`,
-    //     },
-    //   }
-    // );
-    // setSummary(res.data.choices[0].text);
-
-    setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setStatusMessage(
+        "Failed to fetch highlights. Please check the article or try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCopy = (e) => {
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(textAreaRef.current);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand("copy");
-    selection.removeAllRanges();
-    e.target.focus();
-    alert("text copied");
+    try {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(textAreaRef.current);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand("copy");
+      selection.removeAllRanges();
+      e.target.focus();
+      alert("Text copied successfully!");
+    } catch {
+      alert("Failed to copy text. Please try again.");
+    }
   };
 
   return (
@@ -93,55 +98,63 @@ function Highlighter() {
       </head>
 
       <h1 className="text-center pt-5 heading">Text Highlighter</h1>
-      <p className="text-center pt-2 sub-heading  ">
-        Effortlessly point out the most imoportant piece of information in any
-        text
+      <p className="text-center pt-2 sub-heading">
+        Effortlessly point out the most important information in any text
       </p>
 
       <div className="d-flex justify-content-center align-items-center mt-5">
         <input
           type="text"
-          placeholder="Enter article url"
+          placeholder="Paste your article or blog here"
           className="input"
+          value={articleUrl}
           onChange={(e) => setArticleUrl(e.target.value)}
         />
-        <button type="submit" className="button" onClick={handleSubmit}>
-          Generate
+        <button
+          type="submit"
+          className="button"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? "Generating..." : "Generate"}
         </button>
       </div>
+
+      {statusMessage && (
+        <p className="text-center text-danger mt-3">{statusMessage}</p>
+      )}
+
       {isLoading && (
         <div className="text-center mt-3">
-          <div class="spinner-grow" role="status">
-            <span class="visually-hidden">Loading...</span>
+          <div className="spinner-grow text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
       )}
 
-      <div className="d-flex justify-content-center align-items-center mt-5">
-        {summary && (
+      {summary && (
+        <div className="d-flex justify-content-center align-items-center mt-5">
           <div className="summary-container rounded">
             <h1>Highlights</h1>
-            {typedSummary.length > 0 &&
-              typedSummary.map((item) => (
-                <ul
-                  style={{
-                    paddingTop: "2.5rem",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <li>{item?.value}</li>
-                </ul>
+            <ul
+              style={{
+                paddingTop: "2.5rem",
+              }}
+              ref={textAreaRef}
+            >
+              {typedSummary.map((item, index) => (
+                <li key={index}>{item?.value}</li>
               ))}
+            </ul>
             <IoCopyOutline
               onClick={handleCopy}
               className="icon cursor-pointer"
               size={25}
+              title="Copy to clipboard"
             />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
