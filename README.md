@@ -18,15 +18,19 @@ Insightful Sum is an AI-powered web app that simplifies the process of summarizi
 ## Features
 
 1. **Text Summarization:**
+
    - Obtain concise summaries of any given text or article.
 
 2. **Information Extraction:**
+
    - Extract the most important pieces of information from articles or text.
 
 3. **Engaging Animations:**
+
    - Enjoy cool animations, including a typing animation inspired by Chat-GPT.
 
 4. **Responsive Design:**
+
    - Access the tool seamlessly on various devices with its responsive design.
 
 5. **Copy Response:**
@@ -34,9 +38,10 @@ Insightful Sum is an AI-powered web app that simplifies the process of summarizi
 
 ## Usage
 
-1. Visit the Insightful Sum website at [https://insightfulsum.netlify.app/](https://insightfulsum.netlify.app/).
+1. Visit the Insightful Sum website at [https://insightfulsum.vercel.app/](https://insightfulsum.vercel.app/).
 
 2. Explore the two main features:
+
    - **Text Summarization:** Paste or type the text to get a concise summary.
    - **Information Extraction:** Extract important information from articles or text.
 
